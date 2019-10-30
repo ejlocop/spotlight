@@ -6,12 +6,12 @@ const node_cache = {};
 const nodes_cache = {};
 const kebab_cache = {};
 
-function createClassCache(node){
+function createClassCache(node) {
 
     const current_classes = node.classList;
     const cache = {};
 
-    for(let a = 0; a < current_classes.length; a++){
+    for (let a = 0; a < current_classes.length; a++) {
 
         cache[current_classes[a]] = 1;
     }
@@ -25,45 +25,43 @@ function createClassCache(node){
  * @param class_name
  */
 
-export function addClass(selector, class_name){
+export function addClass(selector, class_name) {
 
     const nodes = getNodes(selector);
     const is_string = typeof class_name === "string";
 
-    if(nodes.length){
+    if (nodes.length) {
 
-        for(let i = 0; i < nodes.length; i++){
+        for (let i = 0; i < nodes.length; i++) {
 
             (is_string ? addClassPerform : addClassNames)(nodes[i], class_name);
         }
-    }
-    else{
+    } else {
 
         (is_string ? addClassPerform : addClassNames)(nodes, class_name);
     }
 }
 
-function addClassNames(node, class_name){
+function addClassNames(node, class_name) {
 
-    for(let i = 0; i < class_name.length; i++){
+    for (let i = 0; i < class_name.length; i++) {
 
         addClassPerform(node, class_name[i]);
     }
 }
 
-function addClassPerform(node, current_class){
+function addClassPerform(node, current_class) {
 
-    if(ENABLE_CLASS_CACHE){
+    if (ENABLE_CLASS_CACHE) {
 
         node._class || createClassCache(node);
 
-        if(!node._class[current_class]){
+        if (!node._class[current_class]) {
 
             node._class[current_class] = 1;
             node._classList.add(current_class);
         }
-    }
-    else{
+    } else {
 
         node.classList.add(current_class);
     }
@@ -74,45 +72,43 @@ function addClassPerform(node, current_class){
  * @param class_name
  */
 
-export function removeClass(selector, class_name){
+export function removeClass(selector, class_name) {
 
     const nodes = getNodes(selector);
     const is_string = typeof class_name === "string";
 
-    if(nodes.length){
+    if (nodes.length) {
 
-        for(let i = 0; i < nodes.length; i++){
+        for (let i = 0; i < nodes.length; i++) {
 
             (is_string ? removeClassPerform : removeClassNames)(nodes[i], class_name);
         }
-    }
-    else{
+    } else {
 
         (is_string ? removeClassPerform : removeClassNames)(nodes, class_name);
     }
 }
 
-function removeClassNames(node, class_name){
+function removeClassNames(node, class_name) {
 
-    for(let i = 0; i < class_name.length; i++){
+    for (let i = 0; i < class_name.length; i++) {
 
         removeClassPerform(node, class_name[i]);
     }
 }
 
-function removeClassPerform(node, current_class){
+function removeClassPerform(node, current_class) {
 
-    if(ENABLE_CLASS_CACHE){
+    if (ENABLE_CLASS_CACHE) {
 
         node._class || createClassCache(node);
 
-        if(node._class[current_class]){
+        if (node._class[current_class]) {
 
             node._class[current_class] = 0;
             node._classList.remove(current_class);
         }
-    }
-    else{
+    } else {
 
         node.classList.remove(current_class);
     }
@@ -124,54 +120,50 @@ function removeClassPerform(node, current_class){
  * @param {boolean=} toggle_state
  */
 
-export function toggleClass(selector, class_name, toggle_state){
+export function toggleClass(selector, class_name, toggle_state) {
 
-    if(typeof toggle_state !== "undefined"){
+    if (typeof toggle_state !== "undefined") {
 
-        if(toggle_state){
+        if (toggle_state) {
 
             addClass(selector, class_name);
-        }
-        else{
+        } else {
 
             removeClass(selector, class_name);
         }
-    }
-    else{
+    } else {
 
         const nodes = getNodes(selector);
         const is_string = typeof class_name === "string";
 
-        if(nodes.length){
+        if (nodes.length) {
 
-            for(let i = 0; i < nodes.length; i++){
+            for (let i = 0; i < nodes.length; i++) {
 
                 (is_string ? toggleClassPerform : toggleClassNames)(nodes[i], class_name);
             }
-        }
-        else{
+        } else {
 
             (is_string ? toggleClassPerform : toggleClassNames)(nodes, class_name);
         }
     }
 }
 
-function toggleClassNames(node, class_name){
+function toggleClassNames(node, class_name) {
 
-    for(let i = 0; i < class_name.length; i++){
+    for (let i = 0; i < class_name.length; i++) {
 
         toggleClassPerform(node, class_name[i]);
     }
 }
 
-function toggleClassPerform(node, current_class){
+function toggleClassPerform(node, current_class) {
 
-    if(ENABLE_CLASS_CACHE){
+    if (ENABLE_CLASS_CACHE) {
 
         node._class || createClassCache(node);
         node._class[current_class] = node._classList.toggle(current_class);
-    }
-    else{
+    } else {
 
         node.classList.toggle(current_class);
     }
@@ -183,31 +175,30 @@ function toggleClassPerform(node, current_class){
  * @returns {boolean}
  */
 
-export function hasClass(selector, class_name){
+export function hasClass(selector, class_name) {
 
     const nodes = getNodes(selector);
 
-    if(nodes.length){
+    if (nodes.length) {
 
-        for(let i = 0; i < nodes.length; i++){
+        for (let i = 0; i < nodes.length; i++) {
 
-            if(hasClassPerform(nodes[i], class_name)){
+            if (hasClassPerform(nodes[i], class_name)) {
 
                 return true;
             }
         }
 
         return false;
-    }
-    else{
+    } else {
 
         return hasClassPerform(nodes, class_name);
     }
 }
 
-function hasClassPerform(node, class_name){
+function hasClassPerform(node, class_name) {
 
-    if(ENABLE_CLASS_CACHE){
+    if (ENABLE_CLASS_CACHE) {
 
         node._class || createClassCache(node);
 
@@ -224,28 +215,27 @@ function hasClassPerform(node, class_name){
  * @param {boolean=} force
  */
 
-export function setStyle(selector, styles, value, force){
-
+export function setStyle(selector, styles, value, force) {
+    console.log(selector)
     const nodes = getNodes(selector);
     const is_string = typeof styles === "string";
-    const keys = !is_string && Object.keys(/** @type {!Object} */ (styles));
+    const keys = !is_string && Object.keys( /** @type {!Object} */ (styles));
 
-    if(nodes.length){
+    if (nodes && nodes.length) {
 
-        for(let i = 0; i < nodes.length; i++){
+        for (let i = 0; i < nodes.length; i++) {
 
             (keys ? setStyleProps : setStylePerform)(nodes[i], styles, keys || value, force);
         }
-    }
-    else{
+    } else {
 
         (keys ? setStyleProps : setStylePerform)(nodes, styles, keys || value, force);
     }
 }
 
-function setStyleProps(node, styles, keys, force){
+function setStyleProps(node, styles, keys, force) {
 
-    for(let a = 0; a < keys.length; a++){
+    for (let a = 0; a < keys.length; a++) {
 
         const style = keys[a];
 
@@ -253,15 +243,15 @@ function setStyleProps(node, styles, keys, force){
     }
 }
 
-function setStylePerform(node, styles, value, force){
+function setStylePerform(node, styles, value, force) {
 
-    if(ENABLE_STYLE_CACHE){
+    if (ENABLE_STYLE_CACHE) {
 
         let node_style = node._style;
 
         node_style || (node._style = node_style = {});
 
-        if(node_style[styles] === value){
+        if (node_style[styles] === value) {
 
             return;
         }
@@ -277,7 +267,7 @@ function setStylePerform(node, styles, value, force){
     );
 }
 
-function camel_to_kebab(style){
+function camel_to_kebab(style) {
 
     return (
 
@@ -290,26 +280,25 @@ function camel_to_kebab(style){
  * @param {string} style
  */
 
-export function getStyle(selector, style){
+export function getStyle(selector, style) {
 
     const node = getNode(selector);
 
     let node_style = node._style;
 
-    if(!ENABLE_STYLE_CACHE || !node_style || !node_style[style]){
+    if (!ENABLE_STYLE_CACHE || !node_style || !node_style[style]) {
 
         const css = node._css || (node._css = getComputedStyle(node, null));
         const value = css[style];
 
-        if(ENABLE_STYLE_CACHE){
+        if (ENABLE_STYLE_CACHE) {
 
             node._style = node_style = {};
             node_style[style] = value;
         }
 
         return value;
-    }
-    else if(ENABLE_STYLE_CACHE){
+    } else if (ENABLE_STYLE_CACHE) {
 
         return node_style[style];
     }
@@ -323,8 +312,10 @@ let tmp = 0;
  * @param {string|number=} value
  */
 
-export function prepareStyle(node, style, value){
-
+export function prepareStyle(node, style, value) {
+    if (!node) {
+        return
+    }
     setStyle(node, "transition", "none");
     setStyle(node, style, value);
 
@@ -334,30 +325,29 @@ export function prepareStyle(node, style, value){
     setStyle(node, "transition", "");
 }
 
-export function setText(selector, text){
+export function setText(selector, text) {
 
     text || (text = "");
 
     const nodes = getNodes(selector);
 
-    if(nodes.length){
+    if (nodes.length) {
 
-        for(let i = 0; i < nodes.length; i++){
+        for (let i = 0; i < nodes.length; i++) {
 
             setTextProcess(nodes[i], text);
         }
-    }
-    else{
+    } else {
 
         setTextProcess(nodes, text);
     }
 }
 
-function setTextProcess(node, text){
+function setTextProcess(node, text) {
 
-    if(ENABLE_CONTENT_CACHE){
+    if (ENABLE_CONTENT_CACHE) {
 
-        if(node._text === text){
+        if (node._text === text) {
 
             return;
         }
@@ -373,7 +363,7 @@ function setTextProcess(node, text){
  * @param {string|Node|Element=} context
  */
 
-export function getNode(selector, context){
+export function getNode(selector, context) {
 
     return getNodeProcess(selector, context, 0);
 }
@@ -383,30 +373,28 @@ export function getNode(selector, context){
  * @param {string|Node|Element=} context
  */
 
-export function getNodes(selector, context){
+export function getNodes(selector, context) {
 
     return getNodeProcess(selector, context, 1);
 }
 
-function getNodeProcess(selector, context, all){
+function getNodeProcess(selector, context, all) {
 
     return (
 
         typeof selector === "string" ?
 
-            (context ?
+        (context ?
 
-                    getNode(context)
-                :
-                    document
+            getNode(context) :
+            document
 
-            )[all ? "querySelectorAll" : "querySelector"](selector)
-        :
-            selector
+        )[all ? "querySelectorAll" : "querySelector"](selector) :
+        selector
     );
 }
 
-export function getById(id){
+export function getById(id) {
 
     return document.getElementById(id);
 }
@@ -417,7 +405,7 @@ export function getById(id){
  * @returns {HTMLCollection}
  */
 
-export function getByClass(classname, context){
+export function getByClass(classname, context) {
 
     return (context || document).getElementsByClassName(classname);
 }
@@ -428,17 +416,17 @@ export function getByClass(classname, context){
  * @returns {HTMLCollection}
  */
 
-export function getByTag(tag, context){
+export function getByTag(tag, context) {
 
     return (context || document).getElementsByTagName(tag);
 }
 
-export function getByIdCache(id){
+export function getByIdCache(id) {
 
     const key = "$#" + id;
     let item = node_cache[key];
 
-    if(!item){
+    if (!item) {
 
         node_cache[key] = item = getById(id);
     }
@@ -452,12 +440,12 @@ export function getByIdCache(id){
  * @returns {HTMLCollection}
  */
 
-export function getByClassCache(classname, context){
+export function getByClassCache(classname, context) {
 
     const key = (context || "$") + "." + classname;
     let items = nodes_cache[key];
 
-    if(!items){
+    if (!items) {
 
         nodes_cache[key] = items = getByClass(classname, context);
     }
@@ -471,12 +459,12 @@ export function getByClassCache(classname, context){
  * @returns {HTMLCollection}
  */
 
-export function getByTagCache(tag, context){
+export function getByTagCache(tag, context) {
 
     const key = (context || "$") + tag;
     let items = nodes_cache[key];
 
-    if(!items){
+    if (!items) {
 
         nodes_cache[key] = items = getByTag(tag, context);
     }
@@ -489,7 +477,7 @@ export function getByTagCache(tag, context){
  * @param {string=} context
  */
 
-export function getNodeCache(selector, context){
+export function getNodeCache(selector, context) {
 
     return getCacheProcess(selector, context, /* multiple? */ 0);
 }
@@ -499,7 +487,7 @@ export function getNodeCache(selector, context){
  * @param {string=} context
  */
 
-export function getNodesCache(selector, context){
+export function getNodesCache(selector, context) {
 
     return getCacheProcess(selector, context, /* multiple? */ 1);
 }
@@ -510,19 +498,19 @@ export function getNodesCache(selector, context){
  * @param {boolean|number=} multiple
  */
 
-function getCacheProcess(selector, context, multiple){
+function getCacheProcess(selector, context, multiple) {
 
     let key = (context || "$") + selector;
     let cache = multiple ? nodes_cache : node_cache;
     let item = cache[key];
 
-    if(!item){
+    if (!item) {
 
-        if(!multiple){
+        if (!multiple) {
 
             item = nodes_cache[key];
 
-            if(item){
+            if (item) {
 
                 return item[0];
             }
