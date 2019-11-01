@@ -314,9 +314,9 @@ function init_slide(index) {
     if (!image) {
 
         const show_preloader = (options["preloader"] !== "false");
-
+        console.log(gallery[index-1], gallery)
         const galleryObject = gallery[index - 1]
-        if (galleryObject.src.match(/https:\/\/www.youtube.com\/embed/)) {
+        if (galleryObject.src.match(/https:\/\/www.youtube.com\/embed|https:\/\/player.vimeo.com\/video/)) {
             panel.appendChild(galleryObject.element.cloneNode(true))
         }
 
@@ -1235,8 +1235,8 @@ function paginate(direction) {
     has_content = has_content && (has_content !== "false");
 
     if (has_content) {
-
-        setText(title, dataset["title"] || "");
+        console.log(dataset['title'])
+        setText(title, dataset["title"] == 'true' ? '' : dataset['title'] || "");
         setText(description, dataset["description"] || "");
     }
 

@@ -216,7 +216,6 @@ function hasClassPerform(node, class_name) {
  */
 
 export function setStyle(selector, styles, value, force) {
-    console.log(selector)
     const nodes = getNodes(selector);
     const is_string = typeof styles === "string";
     const keys = !is_string && Object.keys( /** @type {!Object} */ (styles));
